@@ -21,6 +21,8 @@ public class PersonServiceImpl implements PersonService{
 		person.setPhone("123456");
 		person.setAddress("shanghai");
 		person.setRemark("this is test user");
+		person.setCreated(new Long(100));
+		person.setId(new Long(1));
 		return personRepository.save(person);
 	}
 
