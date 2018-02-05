@@ -1,8 +1,10 @@
 package com.ia.repository.impl;
 
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +24,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     private SessionFactory sessionFactory;
 
     private Session getCurrentSession() {
-        return this.sessionFactory.openSession();
+        return this.sessionFactory.getCurrentSession();
     }
 
     public Person load(Long id) {
@@ -41,8 +43,21 @@ public class PersonRepositoryImpl implements PersonRepository {
         getCurrentSession().persist(entity);
     }
 
+    //AR1, can't insert entity to db.
+    //Root cause-autocommit is set to false by default. 
+    //Need to set connection.autocommit to true in hibernate.cfg.xml
     public Long save(Person entity) {
-        return (Long)getCurrentSession().save(entity);
+    	Logger logger  =  Logger.getLogger(PersonRepositoryImpl.class);
+        logger.debug("entity is" +entity.getAddress()+ " "+ entity.getCreated()+ " "+entity.getId());
+        
+        Session  session = getCurrentSession();
+        //Transaction transaction = session.beginTransaction();
+        //transaction.begin();
+        Long ret = (Long)session.save(entity);
+        //session.flush();//or session.close();可以写，也可以不写
+        //transaction.commit();
+        
+        return ret;
     }
 
     public void saveOrUpdate(Person entity) {
