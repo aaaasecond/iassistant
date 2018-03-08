@@ -38,4 +38,13 @@ public class UserServiceImpl implements UserService{
 			return true;
 		}
 	}
+
+	@Override
+	public boolean authenticate(User user) {
+		User queryUser = userRepository.getByName(user.getUsername());
+		if(queryUser != null && user.getPassword().equals(queryUser.getPassword())) {
+			return true;
+		}  
+		return false;
+	}
 }

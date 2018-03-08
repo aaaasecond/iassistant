@@ -29,5 +29,15 @@ public class UserController {
 		logger.debug("Saved User: "+user.getUsername() + " " + user.getPassword());
 		return ReturnMessage.USER_CREATED_SUCCESS.getMessage();
 	}
+	
+	@RequestMapping(value="login", method = RequestMethod.POST)
+	@ResponseBody
+	public String userLogin(@RequestBody User user) {
+		if(userService.authenticate(user)) {
+			return ReturnMessage.USER_LOGIN_SUCCESS.getMessage();
+		}
+		
+		return ReturnMessage.USER_LOGIN_FALL.getMessage();
+	}
 
 }

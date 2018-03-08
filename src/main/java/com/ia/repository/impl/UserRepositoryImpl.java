@@ -77,7 +77,7 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public User getByName(String name) {
 		// TODO Auto-generated method stub
-		Query query = this.sessionFactory.openSession().createSQLQuery("select * from user where username='"+name+"'");
+		Query query = this.sessionFactory.openSession().createSQLQuery("select * from user where username='"+name+"'").addEntity(User.class);;
 		List<User> users = query.list();
 		if(users.size()==1){
 			return users.get(0);

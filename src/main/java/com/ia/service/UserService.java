@@ -6,4 +6,6 @@ public interface UserService {
 	Long saveUser(User user);
 
 	boolean isUserExist(User user);
+
+	boolean authenticate(User user);
 }
